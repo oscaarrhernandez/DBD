@@ -58,20 +58,20 @@ SELECT Codigo, Nombre ||' '|| Ape_1 AS NombreApe1, Provincia FROM LECTOR WHERE P
 /*23. Obtener el nombre y apellido de aquellos lectores cuyo primer apellido empiece por M.*/
 SELECT Nombre ||' '|| Ape_1 ||' '|| Ape_2 AS FullName FROM LECTOR WHERE Ape_1 LIKE 'M%' ORDER BY Ape_1;
 /*24. Obtener el nombre de los lectores cuyo apellido empiece por G e incluya alguna Z.*/
-
-/*25. Obtener el nombre y apellidos de aquellos lectores que tengan un primer apellido de
-7 letras.*/
-
+SELECT Nombre,Ape_1 FROM Lector WHERE Ape_1 LIKE 'G%Z%';
+/*25. Obtener el nombre y apellidos de aquellos lectores que tengan un primer apellido de 7 letras.*/
+SELECT Nombre || ' ' || Ape_1 || ' ' || Ape_2 AS FullName FROM LECTOR WHERE length(Ape_1)=7;
 /*26. Seleccionar los lectores que tengan edades comprendidas entre los 26 y los 36 años.
 Ordenar de mayor a menor edad.*/
-
+SELECT Nombre || ' ' || Ape_1 || ' ' || Ape_2 AS FullName, to_char(sysdate, 'yyyy')-to_char(Fecha_Nac, 'yyyy') AS Edad FROM LECTOR WHERE to_char(sysdate, 'yyyy')-to_char(Fecha_Nac, 'yyyy') BETWEEN 26 AND 36 ORDER BY Fecha_Nac;
 /*27. Seleccionar los autores que no son españoles.*/
 SELECT Nombre ||' '|| Apellido AS FullName FROM AUTOR WHERE Cod_Nacion IN (SELECT Codigo FROM NACIONALIDAD WHERE Nombre!='ESPANA');
-SELECT A.Nombre || ' ' || A.Apellido AS FullName, N.Nombre FROM AUTOR A JOIN NACIONALIDAD N ON N.Codigo = A.Cod_Nacion WHERE N.Codigo IN (SELECT Codigo FROM NACIONALIDAD WHERE Nombre != 'ESPANA');
-
-/*28. Mostrar los nombres, apellidos y edad de los autores vivos que no son españoles y
-que tienen más de 70 años o menos de 50.*/
-
+SELECT A.Nombre || ' ' || A.Apellido AS FullName, N.Nombre FROM AUTOR A JOIN NACIONALIDAD N ON N.Codigo = A.Cod_Nacion WHERE N.Codigo IN (SELECT Codigo FROM NACIONALIDAD WHERE Nombre!='ESPANA');
+/*28. Mostrar los nombres, apellidos y edad de los autores vivos que no son españoles y que tienen más de 70 años o menos de 50.*/
+SELECT A.Nombre || ' ' || A.Apellido AS FullName, (to_char(sysdate, 'yyyy')-A.Ano_Nac) AS Edad 
+FROM AUTOR A JOIN NACIONALIDAD N ON N.Codigo=A.Cod_Nacion 
+WHERE (to_char(sysdate, 'yyyy')-A.Ano_Nac) BETWEEN 50 AND 70 
+AND N.Codigo IN (SELECT Codigo FROM NACIONALIDAD WHERE Nombre != 'ESPANA');
 /*29. Obtener los datos de los préstamos que, o bien son de la sucursal 5 y han sido
 devueltos, o bien son de la sucursal 10 y aún están en vigor.*/
-
+SELECT * FROM PRESTAMO WHERE (Cod_Suc=5 AND Fecha_Dev IS NOT NULL) OR (Cod_Suc=10 AND Fecha_Dev IS NULL) ORDER BY Cod_Suc, Codigo;
