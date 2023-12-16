@@ -24,7 +24,7 @@ ALTER TABLE t ADD column;
 
 #### Eliminar columna de la tabla
 ```sql
-ALTERE TABLE t DROP column c;
+ALTER TABLE t DROP column c;
 ```
 
 #### Añadir constraint(regla de la tabla)
@@ -117,7 +117,7 @@ SET c1 = new_value;
 ```sql
 UPDATE t
 SET c1 = new_value, 
-        c2 = new_value
+    c2 = new_value
 WHERE condition;
 ```
 
